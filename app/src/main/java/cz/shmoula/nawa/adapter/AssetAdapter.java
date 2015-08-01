@@ -24,6 +24,7 @@ import cz.shmoula.nawa.view.AssetViewHolder;
 public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implements Filterable {
     private List<Asset> allAssets;
     private List<Asset> filteredAssets;
+    private String filterString;
 
     @Override
     public AssetViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -63,7 +64,12 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
      */
     public void setData(List<Asset> data) {
         allAssets = data;
-        filteredAssets = data;
+
+        if(filteredAssets == null)
+            filteredAssets = data;
+        else
+            getFilter().filter(filterString);
+
         notifyDataSetChanged();
     }
 
@@ -81,10 +87,10 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
 
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                if(allAssets == null || allAssets.size() < 1)
+                if(allAssets == null || allAssets.size() < 1 || charSequence == null)
                     return null;
 
-                String filterString = charSequence.toString().toLowerCase();
+                filterString = charSequence.toString().toLowerCase();
                 List<Asset> filteredList = new ArrayList<Asset>();
 
                 for(Asset asset : allAssets) {
