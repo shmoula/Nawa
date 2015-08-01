@@ -52,7 +52,7 @@ public class DataLoader implements android.app.LoaderManager.LoaderCallbacks<Lis
         Collections.sort(assets, new Comparator<Asset>() {
             @Override
             public int compare(Asset asset1, Asset asset2) {
-                return new Long(asset2.getNumberOfTrades()).compareTo(new Long(asset1.getNumberOfTrades()));
+                return Long.valueOf(asset2.getNumberOfTrades()).compareTo(asset1.getNumberOfTrades());
             }
         });
         assetAdapter.setData(assets);
