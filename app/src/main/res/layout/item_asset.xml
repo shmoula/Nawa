@@ -1,17 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.daimajia.swipe.SwipeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="8dp">
+    android:layout_height="64dp">
+    <!-- Bottom View Start-->
+    <LinearLayout
+        android:id="@+id/bottom_wrapper"
+        android:layout_width="160dp"
+        android:layout_height="match_parent"
+        android:background="#66ddff00"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:weightSum="1">
 
-    <TextView
-        android:id="@+id/itemAssetName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        <ImageButton
+            android:id="@+id/itemAssetWatchButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_watch" />
+    </LinearLayout>
+    <!-- Bottom View End-->
 
-    <TextView
-        android:id="@+id/itemAssetTrades"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</LinearLayout>
+    <!-- Surface View Start -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#ffffff"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/itemAssetWatching"
+            android:padding="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/itemAssetName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/itemAssetTrades"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <!-- Surface View End -->
+</com.daimajia.swipe.SwipeLayout>

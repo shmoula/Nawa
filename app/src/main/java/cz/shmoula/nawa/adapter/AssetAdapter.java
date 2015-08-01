@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
 
+import com.daimajia.swipe.SwipeLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +27,30 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
 
     @Override
     public AssetViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_asset, viewGroup, false);
+        SwipeLayout swipeLayout = (SwipeLayout) LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_asset, viewGroup, false);
 
-        return new AssetViewHolder(v);
+        // swipe show mode
+        swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
+
+        // add drag edge.(If the BottomView has 'layout_gravity' attribute, this line is unnecessary)
+        swipeLayout.addDrag(SwipeLayout.DragEdge.Left, swipeLayout.findViewById(R.id.bottom_wrapper));
+
+        return new AssetViewHolder(swipeLayout);
     }
 
     @Override
     public void onBindViewHolder(AssetViewHolder assetViewHolder, int i) {
-        assetViewHolder.setAsset(filteredAssets.get(i));
+        final Asset asset = filteredAssets.get(i);
+        assetViewHolder.setAsset(asset);
+
+        assetViewHolder.onWatchClicked(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Clicked " + asset.getName());
+                asset.setWatched(!asset.isWatched());
+                asset.save();
+            }
+        });
     }
 
     @Override

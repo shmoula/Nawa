@@ -51,6 +51,9 @@ public class Asset extends Model {
     @SerializedName("numberOfTrades")
     private long numberOfTrades;
 
+    @Column(name = "watched")
+    private boolean watched;
+
     public String getAssetId() {
         return assetId;
     }
@@ -129,5 +132,13 @@ public class Asset extends Model {
 
     public void setNumberOfTrades(long numberOfTrades) {
         this.numberOfTrades = numberOfTrades;
+    }
+
+    public boolean isWatched() {
+        return watched;
+    }
+
+    public void setWatched(boolean watched) {
+        this.watched = watched;
     }
 }

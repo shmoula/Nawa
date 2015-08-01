@@ -22,6 +22,7 @@ android {
 repositories {
     jcenter()
     mavenCentral()
+    maven { url "https://jitpack.io" }
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
 
@@ -36,4 +37,5 @@ dependencies {
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
 
     compile 'com.yqritc:recyclerview-flexibledivider:1.2.5'
+    compile 'com.daimajia.swipelayout:library:1.2.0@aar'
 }
