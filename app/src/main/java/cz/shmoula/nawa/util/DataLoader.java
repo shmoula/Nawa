@@ -9,6 +9,8 @@ import android.os.Bundle;
 import com.activeandroid.loaders.ModelLoader;
 import com.activeandroid.query.Select;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import cz.shmoula.nawa.adapter.AssetAdapter;
@@ -18,6 +20,7 @@ import cz.shmoula.nawa.service.DownloadService;
 
 /**
  * Utility for preparing data - either download them from web, or loading from db
+ * After loaded, they're sorted by number of trades DESC
  * Created by vbalak on 01/08/15.
  */
 public class DataLoader implements android.app.LoaderManager.LoaderCallbacks<List<Asset>> {
@@ -46,6 +49,12 @@ public class DataLoader implements android.app.LoaderManager.LoaderCallbacks<Lis
 
     @Override
     public void onLoadFinished(Loader<List<Asset>> loader, List<Asset> assets) {
+        Collections.sort(assets, new Comparator<Asset>() {
+            @Override
+            public int compare(Asset asset1, Asset asset2) {
+                return new Long(asset2.getNumberOfTrades()).compareTo(new Long(asset1.getNumberOfTrades()));
+            }
+        });
         assetAdapter.setData(assets);
     }
 

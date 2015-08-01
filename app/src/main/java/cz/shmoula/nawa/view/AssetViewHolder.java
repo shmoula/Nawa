@@ -13,14 +13,17 @@ import cz.shmoula.nawa.model.Asset;
  */
 public class AssetViewHolder extends RecyclerView.ViewHolder {
     private TextView tvAssetName;
+    private TextView tvAssetTrades;
 
     public AssetViewHolder(View itemView) {
         super(itemView);
 
         tvAssetName = (TextView) itemView.findViewById(R.id.itemAssetName);
+        tvAssetTrades = (TextView) itemView.findViewById(R.id.itemAssetTrades);
     }
 
     public void setAsset(Asset asset) {
         tvAssetName.setText(asset.getName());
+        tvAssetTrades.setText(Long.toString(asset.getNumberOfTrades()));
     }
 }
