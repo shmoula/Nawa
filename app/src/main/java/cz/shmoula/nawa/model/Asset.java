@@ -130,20 +130,4 @@ public class Asset extends Model {
     public void setNumberOfTrades(long numberOfTrades) {
         this.numberOfTrades = numberOfTrades;
     }
-
-    @Override
-    public String toString() {
-        return "Asset{" +
-                "assetId=" + assetId +
-                ", accountId=" + accountId +
-                ", name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", quantityQnt=" + quantityQnt +
-                ", decimals=" + decimals +
-                ", numberOfAccounts=" + numberOfAccounts +
-                ", accountRs='" + accountRs + '\'' +
-                ", numberOfTransfers=" + numberOfTransfers +
-                ", numberOfTrades=" + numberOfTrades +
-                '}';
-    }
 }
