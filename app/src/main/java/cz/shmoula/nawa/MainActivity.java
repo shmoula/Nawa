@@ -10,6 +10,8 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
+
 import cz.shmoula.nawa.adapter.AssetAdapter;
 import cz.shmoula.nawa.service.DownloadService;
 import cz.shmoula.nawa.util.DataLoader;
@@ -29,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainAssetsList);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.addItemDecoration(new HorizontalDividerItemDecoration.Builder(this).build());
 
         assetAdapter = new AssetAdapter();
         recyclerView.setAdapter(assetAdapter);

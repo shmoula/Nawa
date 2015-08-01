@@ -20,6 +20,7 @@ android {
 }
 
 repositories {
+    jcenter()
     mavenCentral()
     maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
 }
@@ -33,4 +34,6 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     compile 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
+
+    compile 'com.yqritc:recyclerview-flexibledivider:1.2.5'
 }
