@@ -2,9 +2,12 @@ package cz.shmoula.nawa.service;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 
 import com.activeandroid.ActiveAndroid;
 
+import cz.shmoula.nawa.MainActivity;
 import cz.shmoula.nawa.api.RestClient;
 import cz.shmoula.nawa.model.Asset;
 import cz.shmoula.nawa.model.ResponseGetAllAssets;
@@ -30,10 +33,19 @@ public class DownloadService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         RestClient.getNxtContract().getAllAssets(new Callback<ResponseGetAllAssets>() {
             @Override
-            public void success(ResponseGetAllAssets responseGetAllAssets, Response response) {
+            public void success(ResponseGetAllAssets assets, Response response) {
+                if (assets.getAssets() == null) {
+                    if (!TextUtils.isEmpty(assets.getError()))
+                        broadcastMessage(assets.getError());
+                    else
+                        broadcastMessage("Assets empty :(");
+
+                    return;
+                }
+
                 ActiveAndroid.beginTransaction();
                 try {
-                    for (Asset asset : responseGetAllAssets.getAssets())
+                    for (Asset asset : assets.getAssets())
                         asset.save();
 
                     ActiveAndroid.setTransactionSuccessful();
@@ -44,8 +56,18 @@ public class DownloadService extends IntentService {
 
             @Override
             public void failure(RetrofitError error) {
-                error.printStackTrace();
+                broadcastMessage(error.getMessage());
             }
         });
+    }
+
+    /**
+     * Broadcasts message to catch it back in MainActivity
+     */
+    public void broadcastMessage(String message) {
+        Intent localIntent = new Intent(MainActivity.DownloadStateReceiver.ACTION);
+
+        localIntent.putExtra(MainActivity.DownloadStateReceiver.KEY_MESSAGE, message);
+        LocalBroadcastManager.getInstance(this).sendBroadcast(localIntent);
     }
 }

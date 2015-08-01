@@ -15,6 +15,9 @@ public class ResponseGetAllAssets {
     @SerializedName("requestProcessingTime")
     private long requestProcessingTime;
 
+    @SerializedName("error")
+    private String error;
+
     public Set<Asset> getAssets() {
         return assets;
     }
@@ -29,5 +32,13 @@ public class ResponseGetAllAssets {
 
     public void setRequestProcessingTime(long requestProcessingTime) {
         this.requestProcessingTime = requestProcessingTime;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
 }

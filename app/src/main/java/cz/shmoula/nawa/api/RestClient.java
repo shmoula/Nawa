@@ -22,8 +22,8 @@ public class RestClient {
     private RestClient() {
     }
 
-    private static final int CONNECT_TIMEOUT_MILLIS = 60 * 1000;
-    private static final int READ_TIMEOUT_MILLIS = 90 * 1000;
+    private static final int CONNECT_TIMEOUT_MILLIS = 10 * 1000;
+    private static final int READ_TIMEOUT_MILLIS = 30 * 1000;
 
     private static void setupRestClient() {
         OkHttpClient okHttpClient = new OkHttpClient();
