@@ -58,14 +58,31 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
         RemoteViews row = new RemoteViews(context.getPackageName(), R.layout.item_widget_row);
 
-        // Load all trades for this asset and prints last price
-        List<Trade> trades = Trade.findTradesByAssetId(assets.get(i).getId());
-        if (trades.size() > 0) {
-            NumberFormat formatter = new DecimalFormat(".####");
-            row.setTextViewText(R.id.itemWidgetRowPrice, formatter.format(trades.get(0).getPrice()));
-        }
+        // Load last two trades for this asset and compute price delta and percent diff
+        List<Trade> trades = Trade.findTradesByAssetId(assets.get(i).getId(), 2);
+        double lastPrice = 0;
+        double previousPrice = 0;
+        if (trades.size() > 0)
+            lastPrice = trades.get(0).getPrice();
+        if(trades.size() > 1)
+            previousPrice = trades.get(1).getPrice();
+
+        double deltaPrice = lastPrice - previousPrice;
+
+        if(deltaPrice < 0)
+            row.setInt(R.id.itemWidgetRowDeltaBox, "setBackgroundResource", R.drawable.widget_delta_box_red);
+        else
+            row.setInt(R.id.itemWidgetRowDeltaBox, "setBackgroundResource", R.drawable.widget_delta_box_green);
 
         row.setTextViewText(R.id.itemWidgetRowName, assets.get(i).getName());
+        row.setTextViewText(R.id.itemWidgetRowPrice, new DecimalFormat(".####").format(lastPrice));
+        row.setTextViewText(R.id.itemWidgetRowDeltaPrice, new DecimalFormat("0.0000").format(deltaPrice));
+        row.setTextViewText(R.id.itemWidgetRowDeltaPercent, new DecimalFormat("0.000").format(deltaPrice / (lastPrice / 100)) + "%");
+
+
+
+        //row.setTextColor(R.id.itemWidgetRowDeltaPrice, context.getResources().getColor(R.color.delta_red));
+        //row.setTextViewText(R.id.itemWidgetRowDeltaPrice, "-1.2");
 
         return row;
     }

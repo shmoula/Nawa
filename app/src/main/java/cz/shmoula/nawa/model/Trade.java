@@ -36,8 +36,8 @@ public class Trade extends Model {
     @Column(name = COLUMN_ASSET_ID, onUpdate = Column.ForeignKeyAction.CASCADE, onDelete = Column.ForeignKeyAction.CASCADE)
     private Asset assetItem;
 
-    public static List<Trade> findTradesByAssetId(Long assetId) {
-        return new Select().from(Trade.class).where(COLUMN_ASSET_ID + " = ?", assetId).orderBy(COLUMN_TIMESTAMP + " DESC").execute();
+    public static List<Trade> findTradesByAssetId(Long assetId, int limit) {
+        return new Select().from(Trade.class).limit(limit).where(COLUMN_ASSET_ID + " = ?", assetId).orderBy(COLUMN_TIMESTAMP + " DESC").execute();
     }
 
     public long getTimestamp() {

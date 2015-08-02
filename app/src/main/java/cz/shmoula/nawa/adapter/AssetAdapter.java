@@ -68,6 +68,8 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
                 // if watching was enabled, download all trades immediately
                 if(asset.isWatched())
                     DownloadService.downloadTradesForAsset(context, asset.getAssetId());
+                else
+                    WidgetProvider.forceReload(context);  // otherwise only refresh widget
             }
         });
     }

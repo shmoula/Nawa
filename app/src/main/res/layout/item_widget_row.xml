@@ -1,24 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
     android:padding="8dp">
 
     <TextView
         android:id="@+id/itemWidgetRowName"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight=".7"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:textColor="#ffffff"
         android:textSize="20sp" />
 
+    <LinearLayout
+        android:id="@+id/itemWidgetRowDeltaBox"
+        android:layout_width="48dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/itemWidgetRowDeltaPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-1.5"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/itemWidgetRowDeltaPercent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="-0.8%"
+            android:textColor="#ffffff"
+            android:textSize="12sp" />
+
+    </LinearLayout>
+
     <TextView
         android:id="@+id/itemWidgetRowPrice"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight=".3"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="8dp"
+        android:layout_toLeftOf="@id/itemWidgetRowDeltaBox"
         android:textColor="#ffffff"
         android:textSize="20sp" />
-</LinearLayout>
+</RelativeLayout>
