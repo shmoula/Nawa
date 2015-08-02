@@ -2,6 +2,7 @@ package cz.shmoula.nawa.service;
 
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -14,6 +15,19 @@ import cz.shmoula.nawa.R;
  * Created by vbalak on 02/08/15.
  */
 public class WidgetProvider extends AppWidgetProvider {
+    private static final String KEY_FORCE_REFRESH = "forceWidgetRefresh";
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        super.onReceive(context, intent);
+
+        if (intent.hasExtra(KEY_FORCE_REFRESH)) {
+            ComponentName cn = new ComponentName(context, WidgetProvider.class);
+
+            AppWidgetManager.getInstance(context).notifyAppWidgetViewDataChanged(
+                    AppWidgetManager.getInstance(context).getAppWidgetIds(cn), R.id.widgetList);
+        }
+    }
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -30,5 +44,16 @@ public class WidgetProvider extends AppWidgetProvider {
         }
 
         super.onUpdate(context, appWidgetManager, appWidgetIds);
+    }
+
+    /**
+     * Force reload widget
+     */
+    public static void forceReload(Context context) {
+        Intent updateIntent = new Intent();
+
+        updateIntent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        updateIntent.putExtra(KEY_FORCE_REFRESH, true);
+        context.sendBroadcast(updateIntent);
     }
 }

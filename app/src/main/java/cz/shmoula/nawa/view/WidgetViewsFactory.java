@@ -25,7 +25,6 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
     public WidgetViewsFactory(Context context, Intent intent) {
         this.context = context;
         int appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID);
-        assets = new Select().from(Asset.class).where(Asset.COLUMN_WATCHED + "=1").execute();
     }
 
     @Override
@@ -35,7 +34,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public void onDataSetChanged() {
-
+        assets = new Select().from(Asset.class).where(Asset.COLUMN_WATCHED + "=1").execute();
     }
 
     @Override
@@ -45,16 +44,20 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public int getCount() {
-        return assets.size();
+        return assets == null ? 0 : assets.size();
+
     }
 
     @Override
     public RemoteViews getViewAt(int i) {
+        if(assets == null || assets.size() < 1)
+            return null;
+
         RemoteViews row = new RemoteViews(context.getPackageName(), R.layout.item_widget_row);
 
         row.setTextViewText(android.R.id.text1, assets.get(i).getName());
 
-        return (row);
+        return row;
     }
 
     @Override
