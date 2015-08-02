@@ -24,6 +24,19 @@
             android:name=".service.DownloadService"
             android:exported="false" />
 
+        <service
+            android:name=".service.WidgetService"
+            android:permission="android.permission.BIND_REMOTEVIEWS" />
+
+        <receiver android:name=".service.WidgetProvider">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+
         <meta-data
             android:name="AA_DB_NAME"
             android:value="Nawa.db" />

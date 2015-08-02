@@ -11,6 +11,8 @@ import com.google.gson.annotations.SerializedName;
  */
 @Table(name = "Assets")
 public class Asset extends Model {
+    public static final String COLUMN_WATCHED = "watched";
+
     @Column(name = "asset", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     @SerializedName("asset")
     private String assetId;
@@ -51,7 +53,7 @@ public class Asset extends Model {
     @SerializedName("numberOfTrades")
     private long numberOfTrades;
 
-    @Column(name = "watched")
+    @Column(name = COLUMN_WATCHED)
     private boolean watched;
 
     public String getAssetId() {
