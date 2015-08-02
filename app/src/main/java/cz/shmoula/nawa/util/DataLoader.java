@@ -2,7 +2,6 @@ package cz.shmoula.nawa.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.content.Loader;
 import android.os.Bundle;
 
@@ -34,10 +33,8 @@ public class DataLoader implements android.app.LoaderManager.LoaderCallbacks<Lis
         this.assetAdapter = assetAdapter;
 
         // download data only if the app is started for the first time
-        if (new Select().from(Asset.class).count() == 0) {
-            Intent downloadData = new Intent(context, DownloadService.class);
-            activity.startService(downloadData);
-        }
+        if (new Select().from(Asset.class).count() == 0)
+            DownloadService.downloadAssets(context);
 
         activity.getLoaderManager().initLoader(ID_ASSET_LOADER, null, this);
     }

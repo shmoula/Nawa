@@ -5,12 +5,15 @@ import com.google.gson.annotations.SerializedName;
 import java.util.Set;
 
 /**
- * POJO with fields of getAllAssets response
+ * POJO with fields of every response - envelops error handling
  * Created by vbalak on 01/08/15.
  */
-public class ResponseGetAllAssets {
+public class ResponseEnvelope {
     @SerializedName("assets")
     private Set<Asset> assets;
+
+    @SerializedName("trades")
+    private Set<Trade> trades;
 
     @SerializedName("requestProcessingTime")
     private long requestProcessingTime;
@@ -24,6 +27,14 @@ public class ResponseGetAllAssets {
 
     public void setAssets(Set<Asset> assets) {
         this.assets = assets;
+    }
+
+    public Set<Trade> getTrades() {
+        return trades;
+    }
+
+    public void setTrades(Set<Trade> trades) {
+        this.trades = trades;
     }
 
     public long getRequestProcessingTime() {
