@@ -20,7 +20,9 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".service.DownloadService" android:exported="false" />
+        <service
+            android:name=".service.DownloadService"
+            android:exported="false" />
 
         <meta-data
             android:name="AA_DB_NAME"
