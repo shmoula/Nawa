@@ -7,7 +7,7 @@
         android:id="@+id/bottom_wrapper"
         android:layout_width="160dp"
         android:layout_height="match_parent"
-        android:background="#66ddff00"
+        android:background="#3490bb"
         android:gravity="center"
         android:orientation="horizontal"
         android:weightSum="1">
@@ -16,6 +16,7 @@
             android:id="@+id/itemAssetWatchButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@null"
             android:src="@drawable/ic_watch" />
     </LinearLayout>
     <!-- Bottom View End-->
@@ -26,23 +27,28 @@
         android:layout_height="match_parent"
         android:background="#ffffff"
         android:orientation="horizontal"
+        android:gravity="center_vertical"
         android:padding="8dp">
 
         <ImageView
             android:id="@+id/itemAssetWatching"
-            android:padding="4dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".15"
+            android:padding="8dp" />
 
         <TextView
             android:id="@+id/itemAssetName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:layout_weight=".7" />
 
         <TextView
             android:id="@+id/itemAssetTrades"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight=".15" />
     </LinearLayout>
     <!-- Surface View End -->
 </com.daimajia.swipe.SwipeLayout>

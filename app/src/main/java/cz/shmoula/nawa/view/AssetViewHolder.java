@@ -34,10 +34,10 @@ public class AssetViewHolder extends RecyclerView.ViewHolder {
 
         if (asset.isWatched()) {
             btnWatch.setImageResource(R.drawable.ic_unwatch);
-            ivWatching.setImageResource(R.drawable.ic_watch);
+            ivWatching.setImageResource(R.drawable.ic_watching);
         } else {
             btnWatch.setImageResource(R.drawable.ic_watch);
-            ivWatching.setImageResource(R.drawable.ic_unwatch);
+            ivWatching.setImageResource(R.drawable.ic_not_watching);
         }
     }
 
