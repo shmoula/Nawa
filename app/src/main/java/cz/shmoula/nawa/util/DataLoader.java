@@ -53,7 +53,7 @@ public class DataLoader implements android.app.LoaderManager.LoaderCallbacks<Lis
             @Override
             public int compare(Asset asset1, Asset asset2) {  // sorting based on two criteria - watched first, then alphabetically
                 int cmp = Boolean.valueOf(asset2.isWatched()).compareTo(asset1.isWatched());
-                if(cmp == 0)
+                if (cmp == 0)
                     return Long.valueOf(asset2.getNumberOfTrades()).compareTo(asset1.getNumberOfTrades());
                 else
                     return cmp;

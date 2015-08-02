@@ -1,6 +1,7 @@
 package cz.shmoula.nawa.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,6 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
         assetViewHolder.onWatchClicked(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Clicked " + asset.getName());
                 asset.setWatched(!asset.isWatched());
                 asset.save();
             }
@@ -65,10 +65,10 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
     public void setData(List<Asset> data) {
         allAssets = data;
 
-        if(filteredAssets == null)
+        if(filteredAssets == null || TextUtils.isEmpty(filterString))
             filteredAssets = data;
         else
-            getFilter().filter(filterString);
+          getFilter().filter(filterString);
 
         notifyDataSetChanged();
     }
