@@ -32,7 +32,7 @@ public class RestClient {
 
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setClient(new OkClient(okHttpClient))
-                //.setLogLevel(RestAdapter.LogLevel.FULL)
+                        //.setLogLevel(RestAdapter.LogLevel.FULL)
                 .setEndpoint(BASE_URL).build();
 
         nxtContract = restAdapter.create(NxtContract.class);

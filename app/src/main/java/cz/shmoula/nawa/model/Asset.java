@@ -3,6 +3,8 @@ package cz.shmoula.nawa.model;
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
+import com.activeandroid.query.Select;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -11,48 +13,65 @@ import com.google.gson.annotations.SerializedName;
  */
 @Table(name = "Assets")
 public class Asset extends Model {
-    @Column(name = "asset", unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
+    public static final String COLUMN_WATCHED = "watched";
+    private static final String COLUMN_ASSET = "asset";
+
+    @Expose
+    @Column(name = COLUMN_ASSET, unique = true, onUniqueConflict = Column.ConflictAction.REPLACE)
     @SerializedName("asset")
     private String assetId;
 
+    @Expose
     @Column(name = "account")
     @SerializedName("account")
     private String accountId;
 
+    @Expose
     @Column(name = "name")
     @SerializedName("name")
     private String name;
 
+    @Expose
     @Column(name = "description")
     @SerializedName("description")
     private String description;
 
+    @Expose
     @Column(name = "quantityQNT")
     @SerializedName("quantityQNT")
     private long quantityQnt;
 
+    @Expose
     @Column(name = "decimals")
     @SerializedName("decimals")
     private byte decimals;
 
+    @Expose
     @Column(name = "numberOfAccounts")
     @SerializedName("numberOfAccounts")
     private long numberOfAccounts;
 
+    @Expose
     @Column(name = "accountRS")
     @SerializedName("accountRS")
     private String accountRs;
 
+    @Expose
     @Column(name = "numberOfTransfers")
     @SerializedName("numberOfTransfers")
     private long numberOfTransfers;
 
+    @Expose
     @Column(name = "numberOfTrades")
     @SerializedName("numberOfTrades")
     private long numberOfTrades;
 
-    @Column(name = "watched")
+    @Column(name = COLUMN_WATCHED)
     private boolean watched;
+
+    public static Asset findAssetByAssetId(String asset) {
+        return new Select().from(Asset.class).where(COLUMN_ASSET + " = ?", asset).executeSingle();
+    }
 
     public String getAssetId() {
         return assetId;

@@ -1,5 +1,7 @@
 package cz.shmoula.nawa.adapter;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -14,8 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.shmoula.nawa.R;
+import cz.shmoula.nawa.api.RestClient;
 import cz.shmoula.nawa.model.Asset;
+import cz.shmoula.nawa.model.ResponseEnvelope;
+import cz.shmoula.nawa.model.Trade;
+import cz.shmoula.nawa.service.DownloadService;
+import cz.shmoula.nawa.service.WidgetProvider;
 import cz.shmoula.nawa.view.AssetViewHolder;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Data holder for list of assets
@@ -27,6 +37,8 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
     private List<Asset> filteredAssets;
     private String filterString;
 
+    private Context context;
+
     @Override
     public AssetViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         SwipeLayout swipeLayout = (SwipeLayout) LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_asset, viewGroup, false);
@@ -34,8 +46,10 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
         // swipe show mode
         swipeLayout.setShowMode(SwipeLayout.ShowMode.PullOut);
 
-        // add drag edge.(If the BottomView has 'layout_gravity' attribute, this line is unnecessary)
+        // add drag edge
         swipeLayout.addDrag(SwipeLayout.DragEdge.Left, swipeLayout.findViewById(R.id.bottom_wrapper));
+
+        context = viewGroup.getContext();
 
         return new AssetViewHolder(swipeLayout);
     }
@@ -50,6 +64,12 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
             public void onClick(View view) {
                 asset.setWatched(!asset.isWatched());
                 asset.save();
+
+                // if watching was enabled, download all trades immediately
+                if(asset.isWatched())
+                    DownloadService.downloadTradesForAsset(context, asset.getAssetId());
+                else
+                    WidgetProvider.forceReload(context);  // otherwise only refresh widget
             }
         });
     }
@@ -65,10 +85,10 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
     public void setData(List<Asset> data) {
         allAssets = data;
 
-        if(filteredAssets == null || TextUtils.isEmpty(filterString))
+        if (filteredAssets == null || TextUtils.isEmpty(filterString))
             filteredAssets = data;
         else
-          getFilter().filter(filterString);
+            getFilter().filter(filterString);
 
         notifyDataSetChanged();
     }
@@ -87,15 +107,15 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
 
             @Override
             protected FilterResults performFiltering(CharSequence charSequence) {
-                if(allAssets == null || allAssets.size() < 1 || charSequence == null)
+                if (allAssets == null || allAssets.size() < 1 || charSequence == null)
                     return null;
 
                 filterString = charSequence.toString().toLowerCase();
                 List<Asset> filteredList = new ArrayList<Asset>();
 
-                for(Asset asset : allAssets) {
+                for (Asset asset : allAssets) {
                     String assetName = asset.getName().toLowerCase();
-                    if(assetName.contains(filterString))
+                    if (assetName.contains(filterString))
                         filteredList.add(asset);
                 }
 
@@ -108,7 +128,7 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                if(filterResults == null || filterResults.count < 1)
+                if (filterResults == null || filterResults.count < 1)
                     return;
 
                 setFilteredAssets((List<Asset>) filterResults.values);
