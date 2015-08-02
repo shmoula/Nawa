@@ -19,6 +19,7 @@ import com.yqritc.recyclerviewflexibledivider.HorizontalDividerItemDecoration;
 
 import cz.shmoula.nawa.adapter.AssetAdapter;
 import cz.shmoula.nawa.service.DownloadService;
+import cz.shmoula.nawa.service.WidgetProvider;
 import cz.shmoula.nawa.util.DataLoader;
 
 /**
@@ -90,15 +91,24 @@ public class MainActivity extends AppCompatActivity {
      * Receiver for events in other parts of app (mainly DownloadService)
      */
     public class DownloadStateReceiver extends BroadcastReceiver {
-        public static final String ACTION = "cz.shmoula.nawa.BROADCAST";
+        public static final String ACTION = "cz.shmoula.nawa.DOWNLOAD_FINISHED";
+        public static final String TYPE = "type";
+
         public static final String KEY_MESSAGE = "message";
+        public static final String KEY_TRADES_DOWNLOADED = "tradesDownloaded";
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra(KEY_MESSAGE);
+            if (intent.hasExtra(TYPE)) {
+                if (KEY_MESSAGE.equals(intent.getStringExtra(TYPE))) {
+                    String message = intent.getStringExtra(KEY_MESSAGE);
 
-            if (message != null)
-                Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                    if (message != null)
+                        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
+                } else if (KEY_TRADES_DOWNLOADED.equals(intent.getStringExtra(TYPE))) {
+                    WidgetProvider.forceReload(context);
+                }
+            }
         }
     }
 }
