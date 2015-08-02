@@ -1,6 +1,7 @@
 package cz.shmoula.nawa.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,9 +16,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cz.shmoula.nawa.R;
+import cz.shmoula.nawa.api.RestClient;
 import cz.shmoula.nawa.model.Asset;
+import cz.shmoula.nawa.model.ResponseEnvelope;
+import cz.shmoula.nawa.model.Trade;
+import cz.shmoula.nawa.service.DownloadService;
 import cz.shmoula.nawa.service.WidgetProvider;
 import cz.shmoula.nawa.view.AssetViewHolder;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Data holder for list of assets
@@ -57,7 +65,9 @@ public class AssetAdapter extends RecyclerView.Adapter<AssetViewHolder> implemen
                 asset.setWatched(!asset.isWatched());
                 asset.save();
 
-                WidgetProvider.forceReload(context);
+                // if watching was enabled, download all trades immediately
+                if(asset.isWatched())
+                    DownloadService.downloadTradesForAsset(context, asset.getAssetId());
             }
         });
     }

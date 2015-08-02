@@ -47,7 +47,7 @@
 
         <meta-data
             android:name="AA_MODELS"
-            android:value="cz.shmoula.nawa.Asset" />
+            android:value="cz.shmoula.nawa.Asset,cz.shmoula.nawa.Trade" />
     </application>
 
 </manifest>

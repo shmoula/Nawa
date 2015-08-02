@@ -8,10 +8,13 @@ import android.widget.RemoteViewsService;
 
 import com.activeandroid.query.Select;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 
 import cz.shmoula.nawa.R;
 import cz.shmoula.nawa.model.Asset;
+import cz.shmoula.nawa.model.Trade;
 
 /**
  * Factory providing data for the collection inside widget
@@ -34,7 +37,7 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public void onDataSetChanged() {
-        assets = new Select().from(Asset.class).where(Asset.COLUMN_WATCHED + "=1").execute();
+        assets = new Select().from(Asset.class).where(Asset.COLUMN_WATCHED + "=?", 1).execute();
     }
 
     @Override
@@ -50,12 +53,19 @@ public class WidgetViewsFactory implements RemoteViewsService.RemoteViewsFactory
 
     @Override
     public RemoteViews getViewAt(int i) {
-        if(assets == null || assets.size() < 1)
+        if (assets == null || assets.size() < 1)
             return null;
 
         RemoteViews row = new RemoteViews(context.getPackageName(), R.layout.item_widget_row);
 
-        row.setTextViewText(android.R.id.text1, assets.get(i).getName());
+        // Load all trades for this asset and prints last price
+        List<Trade> trades = Trade.findTradesByAssetId(assets.get(i).getId());
+        if (trades.size() > 0) {
+            NumberFormat formatter = new DecimalFormat(".####");
+            row.setTextViewText(R.id.itemWidgetRowPrice, formatter.format(trades.get(0).getPrice()));
+        }
+
+        row.setTextViewText(R.id.itemWidgetRowName, assets.get(i).getName());
 
         return row;
     }
